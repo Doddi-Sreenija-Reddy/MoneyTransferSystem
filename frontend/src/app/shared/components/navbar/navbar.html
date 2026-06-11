@@ -1,0 +1,47 @@
+<mat-toolbar class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <mat-icon class="brand-icon">account_balance</mat-icon>
+      <span class="brand-text">Money Transfer</span>
+    </div>
+
+    <nav class="navbar-links">
+      <a mat-button routerLink="/dashboard" [class.active]="isActive('/dashboard')">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </a>
+      <a mat-button routerLink="/transfer" [class.active]="isActive('/transfer')">
+        <mat-icon>swap_horiz</mat-icon>
+        <span>Transfer</span>
+      </a>
+      <a mat-button routerLink="/history" [class.active]="isActive('/history')">
+        <mat-icon>history</mat-icon>
+        <span>History</span>
+      </a>
+      <a mat-button routerLink="/rewards" [class.active]="isActive('/rewards')">
+        <mat-icon>emoji_events</mat-icon>
+        <span>Rewards</span>
+      </a>
+    </nav>
+
+    <div class="navbar-user">
+      @if (currentUser) {
+        <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+          <mat-icon>account_circle</mat-icon>
+          <span class="user-name">{{ currentUser.holderName }}</span>
+          <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <div class="user-menu-header">
+            <p class="user-menu-name">{{ currentUser.holderName }}</p>
+            <p class="user-menu-id">Account ID: {{ currentUser.accountId }}</p>
+          </div>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      }
+    </div>
+  </div>
+</mat-toolbar>

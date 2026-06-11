@@ -1,0 +1,133 @@
+<div class="register-container">
+  <div class="register-card">
+    <mat-card>
+
+      <mat-card-header>
+        <div class="register-header">
+          <div class="logo">
+            <mat-icon class="logo-icon">account_balance</mat-icon>
+          </div>
+          <h1>Create account</h1>
+          <p class="subtitle">New users get a starting balance of 1000.</p>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+          <!-- 🔵 USERNAME -->
+          <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+
+            <input
+              matInput
+              formControlName="username"
+              placeholder="Choose a username"
+              autocomplete="username"
+            />
+
+            <mat-icon matPrefix>person</mat-icon>
+
+            @if (registerForm.get('username')?.hasError('required') && registerForm.get('username')?.touched) {
+              <mat-error>Username is required</mat-error>
+            }
+
+            @if (registerForm.get('username')?.hasError('pattern') && registerForm.get('username')?.touched) {
+              <mat-error>
+                Username must be at least 5 characters and contain only letters and numbers
+              </mat-error>
+            }
+          </mat-form-field>
+
+
+          <!-- 🔴 PASSWORD -->
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+
+            <input
+              matInput
+              [type]="hidePassword ? 'password' : 'text'"
+              formControlName="password"
+              placeholder="8+ chars, 1 capital, 1 number, 1 special char"
+              autocomplete="new-password"
+            />
+
+            <mat-icon matPrefix>lock</mat-icon>
+
+            <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
+              <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+
+            @if (registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched) {
+              <mat-error>Password is required</mat-error>
+            }
+
+            @if (registerForm.get('password')?.hasError('pattern') && registerForm.get('password')?.touched) {
+              <mat-error>
+                Password must be 8+ characters with 1 uppercase, 1 number and 1 special character
+              </mat-error>
+            }
+          </mat-form-field>
+
+
+          <!-- 🟢 FULL NAME -->
+          <mat-form-field appearance="outline">
+            <mat-label>Full name</mat-label>
+
+            <input
+              matInput
+              formControlName="holderName"
+              placeholder="Enter your full name"
+              autocomplete="name"
+            />
+
+            <mat-icon matPrefix>badge</mat-icon>
+
+            @if (registerForm.get('holderName')?.hasError('required') && registerForm.get('holderName')?.touched) {
+              <mat-error>Full name is required</mat-error>
+            }
+          </mat-form-field>
+
+
+          <!-- ❌ ERROR -->
+          @if (errorMessage) {
+            <div class="error-alert">
+              <mat-icon>error_outline</mat-icon>
+              <span>{{ errorMessage }}</span>
+            </div>
+          }
+
+          <!-- 🔥 REGISTER BUTTON -->
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="registerForm.invalid || loading"
+            class="register-button"
+          >
+
+            @if (loading) {
+              <mat-spinner diameter="20"></mat-spinner>
+              <span>Creating account...</span>
+            } @else {
+              <span>Sign up</span>
+            }
+
+          </button>
+
+          <p class="login-link">
+            Already have an account?
+            <a routerLink="/login">Log in</a>
+          </p>
+
+        </form>
+      </mat-card-content>
+
+    </mat-card>
+
+    <div class="register-footer">
+      <p>&copy; 2026 Money Transfer System. All rights reserved.</p>
+    </div>
+
+  </div>
+</div>

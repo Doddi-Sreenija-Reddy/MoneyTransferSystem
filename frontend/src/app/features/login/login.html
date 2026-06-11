@@ -1,0 +1,139 @@
+<div class="login-container">
+  <div class="login-card">
+    <mat-card>
+
+      <mat-card-header>
+        <div class="login-header">
+          <div class="logo">
+            <mat-icon class="logo-icon">account_balance</mat-icon>
+          </div>
+          <h1>Money Transfer System</h1>
+          <p class="subtitle">Secure. Reliable. Fast.</p>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+          <!-- 🔵 USERNAME -->
+          <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+
+            <input
+              matInput
+              formControlName="username"
+              placeholder="Enter your username"
+              autocomplete="username"
+            />
+
+            <mat-icon matPrefix>person</mat-icon>
+
+            @if (loginForm.get('username')?.hasError('required') && loginForm.get('username')?.touched) {
+              <mat-error>
+                Username is required
+              </mat-error>
+            }
+
+            @if (loginForm.get('username')?.hasError('pattern') && loginForm.get('username')?.touched) {
+              <mat-error>
+                Username must be at least 5 characters and contain only letters and numbers
+              </mat-error>
+            }
+          </mat-form-field>
+
+
+          <!-- 🔴 PASSWORD -->
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+
+            <input
+              matInput
+              [type]="hidePassword ? 'password' : 'text'"
+              formControlName="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+            />
+
+            <mat-icon matPrefix>lock</mat-icon>
+
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="togglePasswordVisibility()"
+            >
+              <mat-icon>
+                {{ hidePassword ? 'visibility_off' : 'visibility' }}
+              </mat-icon>
+            </button>
+
+            @if (loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched) {
+              <mat-error>
+                Password is required
+              </mat-error>
+            }
+
+            @if (loginForm.get('password')?.hasError('pattern') && loginForm.get('password')?.touched) {
+              <mat-error>
+                Password must be 8+ characters with 1 uppercase, 1 number and 1 special character
+              </mat-error>
+            }
+          </mat-form-field>
+
+
+          <!-- ✅ SUCCESS MESSAGE -->
+          @if (successMessage) {
+            <div class="success-alert">
+              <mat-icon>check_circle_outline</mat-icon>
+              <span>{{ successMessage }}</span>
+            </div>
+          }
+
+          <!-- ❌ ERROR MESSAGE -->
+          @if (errorMessage) {
+            <div class="error-alert">
+              <mat-icon>error_outline</mat-icon>
+              <span>{{ errorMessage }}</span>
+            </div>
+          }
+
+
+          <!-- 🔥 LOGIN BUTTON -->
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="loginForm.invalid || loading"
+            class="login-button"
+          >
+
+            @if (loading) {
+              <mat-spinner diameter="20"></mat-spinner>
+              <span>Logging in...</span>
+            } @else {
+              <span>Login</span>
+            }
+
+          </button>
+
+
+          <!-- SIGNUP LINK -->
+          <p class="signup-link">
+            Don't have an account?
+            <a routerLink="/register">Sign up</a>
+          </p>
+
+        </form>
+
+      </mat-card-content>
+
+    </mat-card>
+
+    <!-- FOOTER -->
+    <div class="login-footer">
+      <p>&copy; 2026 Money Transfer System. All rights reserved.</p>
+    </div>
+
+  </div>
+</div>

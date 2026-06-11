@@ -1,0 +1,156 @@
+<app-navbar></app-navbar>
+
+<div class="rewards-container">
+  <div class="rewards-content">
+
+    <!-- Page Header -->
+    <div class="rewards-header">
+      <div class="header-left">
+        <div class="header-icon">
+          <mat-icon>emoji_events</mat-icon>
+        </div>
+        <div>
+          <h1>My Rewards</h1>
+          <p>Points earned from your eligible money transfers</p>
+        </div>
+      </div>
+      <button mat-raised-button color="primary" id="rewards-refresh-btn"
+              (click)="refresh()" [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+    </div>
+
+    @if (loading) {
+      <div class="loading-container">
+        <mat-spinner diameter="52"></mat-spinner>
+        <p>Loading your rewards...</p>
+      </div>
+    } @else if (errorMessage) {
+      <div class="error-container">
+        <mat-icon>error_outline</mat-icon>
+        <h3>{{ errorMessage }}</h3>
+        <button mat-raised-button color="primary" (click)="loadRewards()">Retry</button>
+      </div>
+    } @else {
+
+      <!-- Total Points Banner -->
+      <div class="points-banner">
+        <div class="points-glow"></div>
+        <div class="points-content">
+          <div class="trophy-wrapper">
+            <mat-icon class="trophy-icon">emoji_events</mat-icon>
+          </div>
+          <div class="points-info">
+            <p class="points-label">Total Reward Points</p>
+            <div class="points-value">
+              <span class="points-number">{{ totalPoints }}</span>
+              <span class="points-unit">pts</span>
+            </div>
+            <p class="points-sub">Earned from {{ rewardEntries.length }} eligible transfer(s)</p>
+          </div>
+          <div class="points-badge">
+            <mat-icon>star</mat-icon>
+            <span>{{ totalPoints >= 100 ? 'Gold' : totalPoints >= 50 ? 'Silver' : 'Bronze' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- How It Works Info Card -->
+      <mat-card class="info-card">
+        <div class="info-grid">
+          <div class="info-item">
+            <mat-icon class="info-icon">check_circle</mat-icon>
+            <div>
+              <p class="info-title">Eligible Transfers</p>
+              <p class="info-desc">Successful transfers above ₹100 to another user</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <mat-icon class="info-icon">calculate</mat-icon>
+            <div>
+              <p class="info-title">Calculation</p>
+              <p class="info-desc">1 point for every ₹100 transferred (rounded down)</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <mat-icon class="info-icon">auto_awesome</mat-icon>
+            <div>
+              <p class="info-title">Example</p>
+              <p class="info-desc">₹250 transfer = 2 pts &nbsp;|&nbsp; ₹99 transfer = 0 pts</p>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+
+      <!-- Reward History Table -->
+      @if (rewardEntries.length === 0) {
+        <mat-card class="empty-state">
+          <mat-icon>card_giftcard</mat-icon>
+          <h3>No Rewards Yet</h3>
+          <p>Complete an eligible money transfer (over ₹100 to another user) to start earning reward points!</p>
+        </mat-card>
+      } @else {
+        <mat-card class="history-card">
+          <div class="history-card-header">
+            <h3>
+              <mat-icon>history</mat-icon>
+              Reward History
+            </h3>
+            <mat-chip class="count-chip">{{ rewardEntries.length }} entries</mat-chip>
+          </div>
+
+          <div class="table-container">
+            <table mat-table [dataSource]="rewardEntries" class="rewards-table" id="rewards-history-table">
+
+              <!-- Date Column -->
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Date &amp; Time</th>
+                <td mat-cell *matCellDef="let entry">
+                  <div class="date-cell">
+                    <mat-icon>schedule</mat-icon>
+                    <span>{{ formatDate(entry.awardedOn) }}</span>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Transaction ID Column -->
+              <ng-container matColumnDef="transactionId">
+                <th mat-header-cell *matHeaderCellDef>Transaction ID</th>
+                <td mat-cell *matCellDef="let entry">
+                  <span class="txn-id"
+                        [matTooltip]="entry.transactionId"
+                        matTooltipPosition="above">
+                    {{ truncateId(entry.transactionId) }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <!-- Amount Column -->
+              <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef>Transfer Amount</th>
+                <td mat-cell *matCellDef="let entry">
+                  <span class="amount-cell">{{ formatCurrency(entry.transactionAmount) }}</span>
+                </td>
+              </ng-container>
+
+              <!-- Points Column -->
+              <ng-container matColumnDef="points">
+                <th mat-header-cell *matHeaderCellDef>Points Earned</th>
+                <td mat-cell *matCellDef="let entry">
+                  <div class="points-chip">
+                    <mat-icon>star</mat-icon>
+                    <span>{{ entry.pointsEarned }} pts</span>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        </mat-card>
+      }
+    }
+  </div>
+</div>

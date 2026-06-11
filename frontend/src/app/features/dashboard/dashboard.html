@@ -1,0 +1,131 @@
+<app-navbar></app-navbar>
+
+<div class="dashboard-container">
+  @if (loading) {
+    <div class="loading-container">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Loading your account...</p>
+    </div>
+  } @else if (errorMessage) {
+    <div class="error-container">
+      <mat-icon>error_outline</mat-icon>
+      <h3>{{ errorMessage }}</h3>
+      <button mat-raised-button color="primary" (click)="loadAccountData()">
+        Retry
+      </button>
+    </div>
+  } @else if (account) {
+    <div class="dashboard-content">
+      <!-- Welcome Banner -->
+      <div class="welcome-banner">
+        <div class="welcome-text">
+          <h1>Welcome back, {{ account.holderName }}!</h1>
+          <p>Manage your account and transfer funds securely.</p>
+        </div>
+        <mat-icon class="welcome-icon">waving_hand</mat-icon>
+      </div>
+
+      <!-- Balance + Rewards Cards Row -->
+      <div class="balance-section">
+        <!-- Balance Card -->
+        <mat-card class="balance-card">
+          <div class="balance-header">
+            <div>
+              <p class="balance-label">Current Balance</p>
+              <h2 class="balance-amount">{{ formatCurrency(account.balance) }}</h2>
+            </div>
+            <button mat-icon-button (click)="refreshBalance()" class="refresh-button">
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
+
+          <div class="account-details">
+            <div class="detail-item">
+              <mat-icon>account_circle</mat-icon>
+              <div>
+                <p class="detail-label">Account Holder</p>
+                <p class="detail-value">{{ account.holderName }}</p>
+              </div>
+            </div>
+            <div class="detail-item">
+              <mat-icon>tag</mat-icon>
+              <div>
+                <p class="detail-label">Account ID</p>
+                <p class="detail-value">{{ account.id }}</p>
+              </div>
+            </div>
+            <div class="detail-item">
+              <mat-icon>verified</mat-icon>
+              <div>
+                <p class="detail-label">Status</p>
+                <p class="detail-value status-badge" [class.active]="account.status === 'ACTIVE'">
+                  {{ account.status }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+
+        <!-- Reward Points Card -->
+        <mat-card class="rewards-card" (click)="navigateToRewards()">
+          <div class="rewards-card-inner">
+            <div class="rewards-icon-wrap">
+              <mat-icon>emoji_events</mat-icon>
+            </div>
+            <div class="rewards-info">
+              <p class="rewards-label">Reward Points</p>
+              <div class="rewards-points">
+                <span class="rewards-number">{{ totalRewardPoints }}</span>
+                <span class="rewards-unit">pts</span>
+              </div>
+              <p class="rewards-hint">Tap to view history</p>
+            </div>
+            <mat-icon class="rewards-arrow">arrow_forward</mat-icon>
+          </div>
+        </mat-card>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <h3>Quick Actions</h3>
+        <div class="actions-grid">
+          <mat-card class="action-card" (click)="navigateToTransfer()">
+            <div class="action-icon transfer-icon">
+              <mat-icon>swap_horiz</mat-icon>
+            </div>
+            <h4>Transfer Money</h4>
+            <p>Send money to another account instantly</p>
+            <button mat-button color="primary">
+              Get Started
+              <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </mat-card>
+
+          <mat-card class="action-card" (click)="navigateToHistory()">
+            <div class="action-icon history-icon">
+              <mat-icon>history</mat-icon>
+            </div>
+            <h4>Transaction History</h4>
+            <p>View all your past transactions</p>
+            <button mat-button color="primary">
+              View History
+              <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </mat-card>
+
+          <mat-card class="action-card" (click)="navigateToRewards()">
+            <div class="action-icon rewards-action-icon">
+              <mat-icon>emoji_events</mat-icon>
+            </div>
+            <h4>My Rewards</h4>
+            <p>Track points earned from your transfers</p>
+            <button mat-button class="rewards-btn">
+              View Rewards
+              <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  }
+</div>
