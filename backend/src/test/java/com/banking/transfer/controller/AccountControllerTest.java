@@ -65,7 +65,7 @@ class AccountControllerTest {
                                 .username("alice")
                                 .password("Secret@123")
                                 .holderName("Alice Smith")
-                                .initialBalance(new BigDecimal("1000.00"))
+                                .initialBalance(new BigDecimal("5000.00"))
                                 .build();
         }
 
@@ -80,7 +80,7 @@ class AccountControllerTest {
                 return AccountResponse.builder()
                                 .id("acc-123")
                                 .username("alice")
-                                .balance(new BigDecimal("1000.00"))
+                                .balance(new BigDecimal("5000.00"))
                                 .status(AccountStatus.ACTIVE)
                                 .build();
         }
@@ -118,7 +118,7 @@ class AccountControllerTest {
                                         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                                         .andExpect(jsonPath("$.id").value("acc-123"))
                                         .andExpect(jsonPath("$.username").value("alice"))
-                                        .andExpect(jsonPath("$.balance").value(1000.00))
+                                        .andExpect(jsonPath("$.balance").value(5000.00))
                                         .andExpect(jsonPath("$.status").value("ACTIVE"));
                 }
 
@@ -221,7 +221,7 @@ class AccountControllerTest {
                                         .andExpect(status().isOk())
                                         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                                         .andExpect(jsonPath("$.id").value("acc-123"))
-                                        .andExpect(jsonPath("$.balance").value(1000.00));
+                                        .andExpect(jsonPath("$.balance").value(5000.00));
                 }
         }
 

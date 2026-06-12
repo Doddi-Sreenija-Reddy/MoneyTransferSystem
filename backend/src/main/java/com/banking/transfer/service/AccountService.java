@@ -27,7 +27,7 @@ import java.util.List;
 @SuppressWarnings("java:S1192")
 public class AccountService {
 
-    private static final BigDecimal DEFAULT_INITIAL_BALANCE = BigDecimal.valueOf(1000);
+    private static final BigDecimal DEFAULT_INITIAL_BALANCE = BigDecimal.valueOf(5000);
 
     private final AccountRepository accountRepository;
     private final TransactionLogRepository transactionLogRepository;

@@ -51,7 +51,7 @@ class AccountServiceTest {
                 .username("testuser")
                 .password("password123")
                 .holderName("Test User")
-                .initialBalance(new BigDecimal("1000.00"))
+                .initialBalance(new BigDecimal("5000.00"))
                 .build();
 
         testAccount = Account.builder()
@@ -59,7 +59,7 @@ class AccountServiceTest {
                 .username("testuser")
                 .password("$2a$10$encoded_password")
                 .holderName("Test User")
-                .balance(new BigDecimal("1000.00"))
+                .balance(new BigDecimal("5000.00"))
                 .status(AccountStatus.ACTIVE)
                 .version(0)
                 .build();
@@ -79,7 +79,7 @@ class AccountServiceTest {
         assertNotNull(response);
         assertEquals("testuser", response.getUsername());
         assertEquals("Test User", response.getHolderName());
-        assertEquals(new BigDecimal("1000.00"), response.getBalance());
+        assertEquals(new BigDecimal("5000.00"), response.getBalance());
         assertEquals(AccountStatus.ACTIVE, response.getStatus());
 
         verify(accountRepository, times(1)).existsByUsername("testuser");
@@ -102,7 +102,7 @@ class AccountServiceTest {
                 .username("newuser")
                 .password("$2a$10$encoded_password")
                 .holderName("New User")
-                .balance(new BigDecimal("1000.00"))
+                .balance(new BigDecimal("5000.00"))
                 .status(AccountStatus.ACTIVE)
                 .version(0)
                 .build();
@@ -116,8 +116,8 @@ class AccountServiceTest {
 
         // Assert
         assertNotNull(response);
-        assertEquals(new BigDecimal("1000.00"), response.getBalance());
-        verify(accountRepository).save(argThat(account -> account.getBalance().compareTo(new BigDecimal("1000")) == 0));
+        assertEquals(new BigDecimal("5000.00"), response.getBalance());
+        verify(accountRepository).save(argThat(account -> account.getBalance().compareTo(new BigDecimal("5000")) == 0));
     }
 
     @Test
@@ -212,7 +212,7 @@ class AccountServiceTest {
         assertEquals("ACC-1", response.getId());
         assertEquals("testuser", response.getUsername());
         assertEquals("Test User", response.getHolderName());
-        assertEquals(new BigDecimal("1000.00"), response.getBalance());
+        assertEquals(new BigDecimal("5000.00"), response.getBalance());
 
         verify(accountRepository, times(1)).findById("ACC-1");
     }

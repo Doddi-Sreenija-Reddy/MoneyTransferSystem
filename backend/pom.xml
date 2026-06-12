@@ -116,13 +116,12 @@
                     </excludes>
                 </configuration>
             </plugin>
-
-            <!-- JaCoCo Maven Plugin -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.11</version>
                 <executions>
+                    <!-- Attach JaCoCo agent -->
                     <execution>
                         <id>prepare-agent</id>
                         <goals>
@@ -130,6 +129,7 @@
                         </goals>
                     </execution>
 
+                    <!-- Generate coverage report after tests -->
                     <execution>
                         <id>report</id>
                         <phase>test</phase>
@@ -137,26 +137,11 @@
                             <goal>report</goal>
                         </goals>
                         <configuration>
-                            <!-- Excludes apply to the report generation -->
+                            <!-- Excludes apply to the report -->
                             <excludes>
                                 <exclude>**/exception/**</exclude>
                                 <exclude>**/dto/**</exclude>
                                 <exclude>com/banking/transfer/MoneyTransferSystemApplication.class</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-
-                    <!-- Optional: enforce coverage thresholds -->
-                    <execution>
-                        <id>jacoco-check</id>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <excludes>
-                                <exclude>**/exception/**</exclude>
-                                <exclude>**/dto/**</exclude>
-                                <exclude>**/MoneyTransferSystemApplication.class</exclude>
                             </excludes>
                         </configuration>
                     </execution>

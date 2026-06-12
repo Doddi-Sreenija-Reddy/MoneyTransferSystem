@@ -70,7 +70,7 @@ class GlobalExceptionHandlerTest {
                                 // strong password to satisfy common regex policies
                                 .password("Secret@123A")
                                 .holderName("Alice Smith")
-                                .initialBalance(new BigDecimal("1000.00"))
+                                .initialBalance(new BigDecimal("5000.00"))
                                 .build();
         }
 
@@ -94,7 +94,7 @@ class GlobalExceptionHandlerTest {
                 return AccountResponse.builder()
                                 .id("acc-1")
                                 .username("alice")
-                                .balance(new BigDecimal("1000.00"))
+                                .balance(new BigDecimal("5000.00"))
                                 .status(com.banking.transfer.entity.AccountStatus.ACTIVE)
                                 .build();
         }

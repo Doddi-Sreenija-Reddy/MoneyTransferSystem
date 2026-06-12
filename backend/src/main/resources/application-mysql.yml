@@ -4,10 +4,10 @@ spring:
     name: money-transfer-system
   
   datasource:
-    url: jdbc:mysql://localhost:3306/transferdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/transactiondb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: Root123$
+    password: Cloud123$
     
     # HikariCP connection pool settings
     hikari:

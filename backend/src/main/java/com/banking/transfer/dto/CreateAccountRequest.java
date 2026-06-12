@@ -24,7 +24,7 @@ public class CreateAccountRequest {
     @NotBlank(message = "Holder name is required")
     private String holderName;
 
-    /** Optional. When null, server defaults to 1000 for new accounts. */
-    @DecimalMin(value = "0.0", inclusive = true, message = "Balance must be non-negative")
+    /** Optional. When null, server defaults to 5000 for new accounts. */
+    @DecimalMin(value = "5000.0", inclusive = true, message = "Balance must be at least 5000")
     private BigDecimal initialBalance;
 }
