@@ -19,21 +19,33 @@ public class RewardHistory {
     @Column(nullable = false, unique = true)
     private String id;
 
-    /** The account that earned the reward (the sender). */
+    /** The account that earned or redeemed the reward. */
     @Column(nullable = false)
     private String accountId;
 
-    /** The transaction that triggered this reward. */
-    @Column(nullable = false, unique = true)
+    /**
+     * The transaction that triggered this reward.
+     * Null for REDEEMED entries (no triggering transfer).
+     */
+    @Column(unique = true)
     private String transactionId;
 
-    /** Reward points awarded: floor(transactionAmount / 100). */
+    /**
+     * Points earned (positive for EARNED, negative for REDEEMED).
+     * SUM of all rows = net available points.
+     */
     @Column(nullable = false)
     private int pointsEarned;
 
-    /** Original transfer amount for traceability. */
+    /** Original transfer amount (for EARNED rows) or cashback value (for REDEEMED rows). */
     @Column(nullable = false, precision = 18, scale = 2)
     private BigDecimal transactionAmount;
+
+    /** Whether these points were earned from a transfer or redeemed for cashback. */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private RewardType type = RewardType.EARNED;
 
     @Column(nullable = false)
     private LocalDateTime awardedOn;
@@ -46,5 +58,9 @@ public class RewardHistory {
         if (this.awardedOn == null) {
             this.awardedOn = LocalDateTime.now();
         }
+        if (this.type == null) {
+            this.type = RewardType.EARNED;
+        }
     }
 }
+

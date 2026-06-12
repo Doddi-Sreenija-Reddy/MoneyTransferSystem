@@ -5,7 +5,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../../../core/services/auth';
+import { ThemeService } from '../../../core/services/theme';
 import { AuthUser } from '../../../core/models/auth.model';
 
 @Component({
@@ -17,7 +19,8 @@ import { AuthUser } from '../../../core/models/auth.model';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTooltipModule
   ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss'
@@ -27,6 +30,7 @@ export class Navbar implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private themeService: ThemeService,
     private router: Router
   ) {}
 
@@ -34,6 +38,14 @@ export class Navbar implements OnInit {
     this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
     });
+  }
+
+  get isDark(): boolean {
+    return this.themeService.isDark;
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggle();
   }
 
   logout(): void {

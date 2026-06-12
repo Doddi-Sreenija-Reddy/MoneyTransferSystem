@@ -10,3 +10,15 @@ export interface RewardResponse {
   totalPoints: number;
   rewards: RewardEntry[];
 }
+
+export interface RedeemRequest {
+  pointsToRedeem: number;
+}
+
+export interface RedeemResponse {
+  pointsRedeemed: number;
+  cashbackAmount: number;
+  newBalance: number;
+  remainingPoints: number;
+  message: string;
+}
